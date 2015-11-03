@@ -7,7 +7,7 @@ class Table
   end
 
   def over_the_edge?(x, y)
-    !(0..@x).include?(x) || !(0..@y).include?(y)
+    !(0..@x).include?(x.to_i) || !(0..@y).include?(y.to_i)
   end
 
 end
