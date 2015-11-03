@@ -1,10 +1,9 @@
 class Table
-  DEFAULT_DIMENSIONS = [5, 5]
-
   attr_reader :x, :y
 
   def initialize
-    @x, @y = DEFAULT_DIMENSIONS
+    @x = 5
+    @y = 5
   end
 
   def over_the_edge?(x, y)
