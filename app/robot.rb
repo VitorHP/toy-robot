@@ -11,14 +11,22 @@ class Robot
 
   attr_reader :x, :y
 
-  def initialize(x, y, f)
-    raise ArgumentError, "Invalid orientation. Valid orientations are: #{ORIENTATIONS.join(', ')}" unless ORIENTATIONS.include? f
-
-    @x, @y, @f = x, y, ORIENTATIONS.index(f)
+  def f
+    @f.nil? ? nil : ORIENTATIONS[@f]
   end
 
-  def f
-    ORIENTATIONS[@f]
+  def initialize
+    @placed = false
+  end
+
+  def place(x, y, f)
+    raise ArgumentError, "Invalid orientation. Valid orientations are: #{ORIENTATIONS.join(', ')}" unless ORIENTATIONS.include? f
+
+    @placed = true
+
+    @x, @y, @f = x, y, ORIENTATIONS.index(f)
+
+    return self
   end
 
   def calculate_movement
@@ -49,5 +57,26 @@ class Robot
 
     return self
   end
+
+  def report
+    [@x, @y, f]
+  end
+
+  private
+
+  def self.ignore_unless_placed(*methods)
+    methods.each do |name|
+      method = instance_method(name)
+      define_method(name) do |*args, &block|
+        if @placed
+          method.bind(self).(*args, &block)
+        else
+          return self
+        end
+      end
+    end
+  end
+
+  ignore_unless_placed :move, :turn, :report
 
 end
