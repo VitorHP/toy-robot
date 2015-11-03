@@ -84,7 +84,7 @@ describe Robot do
     end
 
     it "returns the robot's current position and orientation" do
-      expect(Robot.new.place(0, 0, 'NORTH').report).to eq([0, 0, 'NORTH'])
+      expect(Robot.new.place(0, 0, 'NORTH').report).to eq({ x: 0, y: 0, f: 'NORTH'})
     end
   end
 end

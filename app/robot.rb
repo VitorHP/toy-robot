@@ -24,7 +24,7 @@ class Robot
 
     @placed = true
 
-    @x, @y, @f = x, y, ORIENTATIONS.index(f)
+    @x, @y, @f = x.to_i, y.to_i, ORIENTATIONS.index(f)
 
     return self
   end
@@ -32,13 +32,13 @@ class Robot
   def calculate_movement
     case f
       when NORTH
-        return x, y + 1
+        return [x, y + 1]
       when SOUTH
-        return x, y - 1
+        return [x, y - 1]
       when EAST
-        return x + 1, y
+        return [x + 1, y]
       when WEST
-        return x - 1, y
+        return [x - 1, y]
     end
   end
 
@@ -59,7 +59,7 @@ class Robot
   end
 
   def report
-    [@x, @y, f]
+    { x: @x, y: @y, f: f}
   end
 
   private
