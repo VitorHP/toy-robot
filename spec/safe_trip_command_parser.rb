@@ -1,11 +1,11 @@
-require_relative '../app/command_parser.rb'
+require_relative '../app/safe_trip_command_parser.rb'
 
-describe CommandParser do
+describe SafeTripCommandParser do
 
   let(:robot) { double('robot') }
   let(:table) { double('table') }
 
-  let(:command_parser) { CommandParser.new(robot, table) }
+  let(:command_parser) { SafeTripCommandParser.new(robot, table) }
 
   describe '#execute' do
 

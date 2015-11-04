@@ -1,6 +1,6 @@
 require 'pry'
 
-class CommandParser
+class SafeTripCommandParser
 
   def initialize(robot, table)
     @robot, @table = robot, table
@@ -35,6 +35,7 @@ class CommandParser
 
   def turn_robot(command)
     arguments = /^(LEFT|RIGHT)$/.match(command).captures
+
     @robot.turn(arguments.first)
   end
 
