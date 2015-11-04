@@ -24,12 +24,16 @@ describe Robot do
     end
   end
 
-  describe '#calculate movement' do
+  describe '#calculate_movement' do
+    it 'is ignored unless the robot is placed' do
+      expect(Robot.new.calculate_movement).to eq([])
+    end
+
     it 'returns the position of the robot after a possible movement' do
-      expect(robot_n.calculate_movement).to eq([0, 1])
-      expect(robot_s.calculate_movement).to eq([0, -1])
-      expect(robot_e.calculate_movement).to eq([1, 0])
-      expect(robot_w.calculate_movement).to eq([-1, 0])
+      expect(robot_n.calculate_movement).to eq({ x: 0,  y: 1})
+      expect(robot_s.calculate_movement).to eq({ x: 0,  y:-1})
+      expect(robot_e.calculate_movement).to eq({ x: 1,  y: 0})
+      expect(robot_w.calculate_movement).to eq({ x: -1, y: 0})
     end
   end
 
@@ -80,7 +84,7 @@ describe Robot do
 
   describe '#report' do
     it "is ignored unless the robot is placed" do
-      expect(Robot.new.report).not_to be_an(Array)
+      expect(Robot.new.report).to eq({})
     end
 
     it "returns the robot's current position and orientation" do

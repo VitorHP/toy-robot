@@ -1,4 +1,4 @@
-class Robot
+ class Robot
   NORTH = 'NORTH'
   SOUTH = 'SOUTH'
   EAST = 'EAST'
@@ -32,18 +32,18 @@ class Robot
   def calculate_movement
     case f
       when NORTH
-        return [x, y + 1]
+        return { x: x, y: y + 1 }
       when SOUTH
-        return [x, y - 1]
+        return { x: x, y: y - 1 }
       when EAST
-        return [x + 1, y]
+        return { x: x + 1, y: y }
       when WEST
-        return [x - 1, y]
+        return { x: x - 1, y: y }
     end
   end
 
   def move
-    @x, @y = calculate_movement
+    @x, @y = calculate_movement.values_at(:x, :y)
 
     return self
   end
@@ -65,18 +65,30 @@ class Robot
   private
 
   def self.ignore_unless_placed(*methods)
-    methods.each do |name|
-      method = instance_method(name)
-      define_method(name) do |*args, &block|
+    define_ignored = -> (method, options = {}) do
+      define_method(method.name) do |*args, &block|
         if @placed
           method.bind(self).(*args, &block)
         else
-          return self
+          return options[:returning] || self
         end
+      end
+    end
+
+    methods.each do |name|
+      if name.is_a? Hash
+        name.each_pair do |method_name, options|
+          method = instance_method(method_name)
+
+          define_ignored.call(method, options)
+        end
+      else
+        method = instance_method(name)
+
+        define_ignored.call(method)
       end
     end
   end
 
-  ignore_unless_placed :move, :turn, :report
-
+  ignore_unless_placed :move, :turn, report: { returning: {} }, calculate_movement: { returning: [] }
 end
