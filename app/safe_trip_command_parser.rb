@@ -1,4 +1,7 @@
-require 'pry'
+require_relative 'commands/place_robot_safely_command.rb'
+require_relative 'commands/turn_robot_command.rb'
+require_relative 'commands/move_robot_safely_command.rb'
+require_relative 'commands/report_robot_command.rb'
 
 class SafeTripCommandParser
 
@@ -17,34 +20,14 @@ class SafeTripCommandParser
   def execute_command(command)
     case true
       when (command =~ /PLACE/) != nil
-        return place_robot command
+        return PlaceRobotSafelyCommand.new(@robot, @table).execute(command)
       when (command =~ /(LEFT|RIGHT)/) != nil
-        return turn_robot command
+        return TurnRobotCommand.new(@robot, @table).execute(command)
       when (command =~ /MOVE/) != nil
-        return move_robot
+        return MoveRobotSafelyCommand.new(@robot, @table).execute(command)
       when (command =~ /REPORT/) != nil
-        return report_robot
+        return ReportRobotCommand.new(@robot, @table).execute(command)
     end
-  end
-
-  def place_robot(command)
-    arguments = /^PLACE (\d),(\d),(\w+)$/.match(command).captures
-
-    @robot.place(*arguments) unless @table.over_the_edge?(*arguments[0..1])
-  end
-
-  def turn_robot(command)
-    arguments = /^(LEFT|RIGHT)$/.match(command).captures
-
-    @robot.turn(arguments.first)
-  end
-
-  def move_robot
-    @robot.move unless @table.over_the_edge?(*@robot.calculate_movement)
-  end
-
-  def report_robot
-    puts @robot.report
   end
 
 end

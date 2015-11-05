@@ -6,23 +6,20 @@ describe SafeTripCommandParser do
   let(:table) { double('table') }
 
   let(:command_parser) { SafeTripCommandParser.new(robot, table) }
+  let(:command_object) { double('command_object') }
 
   describe '#execute' do
 
     describe 'PLACE command' do
       let(:command) { ["PLACE 2,1,NORTH"] }
 
-      it 'executes a PLACE command on the robot' do
-        allow(table).to receive(:over_the_edge?).and_return(false)
-
-        expect(robot).to receive(:place).with("2", "1", "NORTH")
-        command_parser.execute(command)
+      before do
+        allow(PlaceRobotSafelyCommand).to receive(:new).and_return(command_object)
       end
 
-      it 'only executes when location provided is within the table borders' do
-        allow(table).to receive(:over_the_edge?).and_return(true)
+      it 'Instantiates a command object and executes it' do
+        expect(command_object).to receive(:execute).with(command.first)
 
-        expect(robot).not_to receive(:place)
         command_parser.execute(command)
       end
     end
@@ -31,20 +28,12 @@ describe SafeTripCommandParser do
       let(:command) { ["MOVE"] }
 
       before do
-        allow(robot).to receive(:calculate_movement)
+        allow(MoveRobotSafelyCommand).to receive(:new).and_return(command_object)
       end
 
-      it 'executes a MOVE command on the robot' do
-        allow(table).to receive(:over_the_edge?).and_return(false)
+      it 'Instantiates a command object and executes it' do
+        expect(command_object).to receive(:execute).with(command.first)
 
-        expect(robot).to receive(:move)
-        command_parser.execute(command)
-      end
-
-      it 'only executes when the movement will not make the robot fall from the table' do
-        allow(table).to receive(:over_the_edge?).and_return(true)
-
-        expect(robot).not_to receive(:move)
         command_parser.execute(command)
       end
     end
@@ -52,8 +41,13 @@ describe SafeTripCommandParser do
     describe 'TURN command' do
       let(:command) { ["LEFT"] }
 
-      it 'executes a TURN command on the robot' do
-        expect(robot).to receive(:turn).with('LEFT')
+      before do
+        allow(TurnRobotCommand).to receive(:new).and_return(command_object)
+      end
+
+      it 'Instantiates a command object and executes it' do
+        expect(command_object).to receive(:execute).with(command.first)
+
         command_parser.execute(command)
       end
     end
@@ -61,8 +55,13 @@ describe SafeTripCommandParser do
     describe 'REPORT command' do
       let(:command) { ["REPORT"] }
 
-      it 'executes a REPORT command on the robot' do
-        expect(robot).to receive(:report)
+      before do
+        allow(ReportRobotCommand).to receive(:new).and_return(command_object)
+      end
+
+      it 'Instantiates a command object and executes it' do
+        expect(command_object).to receive(:execute).with(command.first)
+
         command_parser.execute(command)
       end
     end
