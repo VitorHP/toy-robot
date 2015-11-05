@@ -59,7 +59,15 @@
   end
 
   def report
-    { x: @x, y: @y, f: f}
+    "
+    RobCo Industries - Unified Operating System
+        Copyright 2075-2077 Robco Industries
+                  -Unit #0001-
+
+    Status:         #{@placed ? 'online' : 'offline'}
+    Current X axis: #{@x || 'Not available'}
+    Current Y axis: #{@y || 'Not available'}
+    Orientation:    #{f || 'Not available'}"
   end
 
   private
@@ -90,5 +98,5 @@
     end
   end
 
-  ignore_unless_placed :move, :turn, report: { returning: {} }, calculate_movement: { returning: [] }
+  ignore_unless_placed :move, :turn, calculate_movement: { returning: {} }
 end

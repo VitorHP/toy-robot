@@ -26,7 +26,7 @@ describe Robot do
 
   describe '#calculate_movement' do
     it 'is ignored unless the robot is placed' do
-      expect(Robot.new.calculate_movement).to eq([])
+      expect(Robot.new.calculate_movement).to eq({})
     end
 
     it 'returns the position of the robot after a possible movement' do
@@ -83,12 +83,18 @@ describe Robot do
   end
 
   describe '#report' do
-    it "is ignored unless the robot is placed" do
-      expect(Robot.new.report).to eq({})
-    end
-
     it "returns the robot's current position and orientation" do
-      expect(Robot.new.place(0, 0, 'NORTH').report).to eq({ x: 0, y: 0, f: 'NORTH'})
+      expect(Robot.new.place(0, 0, 'NORTH').report).to eq(
+        "
+    RobCo Industries - Unified Operating System
+        Copyright 2075-2077 Robco Industries
+                  -Unit #0001-
+
+    Status:         online
+    Current X axis: 0
+    Current Y axis: 0
+    Orientation:    NORTH"
+      )
     end
   end
 end
