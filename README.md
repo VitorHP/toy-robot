@@ -8,8 +8,8 @@ could make it fall from the table.
 
 This application was developed on Ubuntu 14.04 x64
 
-> Install >= Ruby 2.2 - Installation instructions [here](https://www.ruby-lang.org) or you can use [RVM](https://rvm.io/)
-> Run `bundle install`
+- Install Ruby 2.2.1 - Installation instructions [here](https://www.ruby-lang.org) or you can use [RVM](https://rvm.io/)
+- Run `bundle install`
 
 ## Usage
 
@@ -24,19 +24,19 @@ from the root of the project.
 The robot obeys to a limited set of commands and it reads one at a time from the
 file. Allowed commands are:
 
-> **PLACE** - Places the robot on the specified coordinate on the table. The
+- **PLACE** - Places the robot on the specified coordinate on the table. The
 format is `PLACE X,Y,F`, *X* and *Y* being coordinates ranging from 0 to 5 and 
 F the direction the robot is facing (NORTH, SOUTH, EAST or WEST in uppercase).
 If the robot is placed on an invalid coordinate, the command is ignored. All the
 other commands except for *REPORT* are ignored until the robot is placed on a 
 valid location on the table.
 
-> **MOVE** - Moves the robot one unit in the direction it is facing. If the
+- **MOVE** - Moves the robot one unit in the direction it is facing. If the
 movement would make the robot fall from the table, the command is ignored. 
 
-> **LEFT** and **RIGHT** - Turn the robot 90 degrees in the direction specified.
+- **LEFT** and **RIGHT** - Turn the robot 90 degrees in the direction specified.
 
-> **REPORT** - Returns the current position and orientation of the robot.
+- **REPORT** - Returns the current position and orientation of the robot.
 
 ## Testing
 
@@ -111,6 +111,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Contributing
 
-> Fork it
-> Make it fly
-> Pull Request Me
+- Fork it
+- Make it fly
+- Pull Request Me
